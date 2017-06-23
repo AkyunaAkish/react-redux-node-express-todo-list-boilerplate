@@ -1,5 +1,5 @@
 import React, {PureComponent} from 'react';
-import {BrowserRouter, Route, Switch} from 'react-router-dom';
+import {BrowserRouter, Route, Redirect, Switch} from 'react-router-dom';
 
 import TodosNew from './components/TodosNew/TodosNew';
 import TodoShow from './components/TodoShow/TodoShow';
@@ -17,7 +17,8 @@ class Router extends PureComponent {
                     <Switch>
                         <Route path='/todos/new' component={TodosNew}/>
                         <Route path='/todos/:id' component={TodoShow}/>
-                        <Route path='/' component={Todos}/>
+                        <Route exact path='/' component={Todos}/>
+                        <Redirect from='*' to='/'/>
                     </Switch>
                 </div>
             </BrowserRouter>
