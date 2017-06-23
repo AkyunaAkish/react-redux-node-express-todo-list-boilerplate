@@ -1,0 +1,3 @@
+  {
+      "presets": ["react", "babel-preset-env", "babel-preset-stage-1"]
+  }

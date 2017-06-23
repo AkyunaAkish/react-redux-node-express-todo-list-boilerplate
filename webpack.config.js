@@ -1,8 +1,10 @@
-let helpers = require('./helpers');
+const env = process.env.NODE_ENV;
+const helpers = require('./helpers');
+const webpack = require('webpack');
 
 module.exports = {
     entry: [
-        './src/index.js'
+        './client/index.js'
     ],
     output: {
         path: helpers.root('dist'),
@@ -12,14 +14,12 @@ module.exports = {
     module: {
         rules: [{
                 test: /\.jsx?$/,
-                exclude: /(node_modules | bower_components)/,
                 use: [{
                     loader: 'babel-loader'
                 }],
             },
             {
                 test: /\.s?css/,
-                exclude: /(node_modules | bower_components)/,
                 use: [{
                         loader: 'style-loader'
                     },
@@ -28,15 +28,36 @@ module.exports = {
                     },
                     {
                         loader: 'sass-loader'
-                    }]
+                    }
+                ]
+            },
+            {
+                test: /\.(png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico)(\?.*$|$)/,
+                loader: `file-loader?name=assets/[name]${env === 'development' ? '' : '.[hash]'}.[ext]`
             }
         ]
     },
+    plugins: [
+        new webpack.DefinePlugin({
+            'NODE_ENV': JSON.stringify(env)
+        }),
+        new webpack.ProvidePlugin({
+            jQuery: 'jquery',
+            $: 'jquery',
+            jquery: 'jquery'
+        })
+    ],
     resolve: {
         extensions: ['.js', '.jsx']
     },
     devServer: {
         historyApiFallback: true,
-        contentBase: './dist'
+        contentBase: './dist',
+        proxy: {
+            '*': {
+                target: 'http://localhost:3000',
+                secure: false
+            }
+        }
     }
 };
