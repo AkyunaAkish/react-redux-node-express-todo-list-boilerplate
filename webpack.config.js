@@ -10,7 +10,7 @@ module.exports = {
         path: helpers.root('dist'),
         filename: 'bundle.js'
     },
-    devtool: 'source-map',
+    devtool: env === 'development' ? 'source-map' : '',
     module: {
         rules: [{
                 test: /\.jsx?$/,

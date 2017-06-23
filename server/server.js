@@ -5,8 +5,9 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const compression = require('compression');
 const cors = require('cors');
+const helpers = require('../helpers');
 
-const todos = require('./server/components/todos/todos.js');
+const todos = require('./components/todos/todos');
 
 const app = express();
 
@@ -18,14 +19,14 @@ app.use(bodyParser.urlencoded({
     extended: false
 }));
 
-app.use(express.static(path.join(__dirname, 'dist')));
+app.use(express.static(helpers.root('dist')));
 app.use(cookieParser());
 
 app.use('/api/todos', todos);
 
 app.all('*', (req, res, next) => {
     res.sendFile('index.html', {
-        root: __dirname + '/dist/'
+        root: helpers.root('dist')
     });
 });
 

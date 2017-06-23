@@ -1,7 +1,7 @@
-const fetchTodo = require('../actions/fetch_todo.js');
+const createTodo = require('../actions/createTodo.js');
 
 module.exports = (req, res) => {
-    fetchTodo(req, res)
+    createTodo(req, res)
         .then((todo) => {
             res.status(200).json({
                 success: todo
@@ -9,7 +9,7 @@ module.exports = (req, res) => {
         })
         .catch((err) => {
             res.status(500).json({
-                error: 'An error occurred when fetching a todo.',
+                error: 'An error occurred when adding a todo.',
                 reason: err
             });
         });

@@ -1,4 +1,4 @@
-const fetchTodos = require('../actions/fetch_todos.js');
+const fetchTodos = require('../actions/fetchTodos.js');
 
 module.exports = (req, res) => {
     fetchTodos(req, res)

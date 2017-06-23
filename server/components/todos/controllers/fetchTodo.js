@@ -1,7 +1,7 @@
-const deleteTodo = require('../actions/delete_todo.js');
+const fetchTodo = require('../actions/fetchTodo.js');
 
 module.exports = (req, res) => {
-    deleteTodo(req, res)
+    fetchTodo(req, res)
         .then((todo) => {
             res.status(200).json({
                 success: todo
@@ -9,7 +9,7 @@ module.exports = (req, res) => {
         })
         .catch((err) => {
             res.status(500).json({
-                error: 'An error occurred when deleting a todo.',
+                error: 'An error occurred when fetching a todo.',
                 reason: err
             });
         });

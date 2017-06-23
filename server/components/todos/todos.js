@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
 
-let fetchTodos = require('./controllers/fetch_todos.controller.js');
-let fetchTodo = require('./controllers/fetch_todo.controller.js');
-let createTodo = require('./controllers/create_todo.controller.js');
-let editTodo = require('./controllers/edit_todo.controller.js');
-let deleteTodo = require('./controllers/delete_todo.controller.js');
+let fetchTodos = require('./controllers/fetchTodos.js');
+let fetchTodo = require('./controllers/fetchTodo.js');
+let createTodo = require('./controllers/createTodo.js');
+let editTodo = require('./controllers/editTodo.js');
+let deleteTodo = require('./controllers/deleteTodo.js');
 
 router.get('/', fetchTodos);
 router.post('/', createTodo);

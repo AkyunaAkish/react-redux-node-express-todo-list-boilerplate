@@ -1,4 +1,4 @@
-const app = require('../server.js');
+const app = require('./server.js');
 const debug = require('debug')('react-redux-node-express-todo-list-boilerplate:server');
 const http = require('http');
 // uncomment if implementing socket.io

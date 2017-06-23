@@ -1,7 +1,7 @@
-const createTodo = require('../actions/create_todo.js');
+const editTodo = require('../actions/editTodo.js');
 
 module.exports = (req, res) => {
-    createTodo(req, res)
+    editTodo(req, res)
         .then((todo) => {
             res.status(200).json({
                 success: todo
@@ -9,7 +9,7 @@ module.exports = (req, res) => {
         })
         .catch((err) => {
             res.status(500).json({
-                error: 'An error occurred when adding a todo.',
+                error: 'An error occurred when editing a todo.',
                 reason: err
             });
         });
