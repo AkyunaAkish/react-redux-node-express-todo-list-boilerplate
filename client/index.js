@@ -15,9 +15,11 @@ import './sass/style.scss';
 import Router from './Router';
 import reducers from './reducers';
 
-const createStoreWithMiddleware = applyMiddleware(promise, createLogger())(createStore);
+const logger = NODE_ENV === 'development' ? createLogger() : null;
+const createStoreWithMiddleware = applyMiddleware(promise, logger)(createStore);
+const reduxExtension = NODE_ENV === 'development' ? window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__() : null;
 
 ReactDOM.render(
-  <Provider store={createStoreWithMiddleware(reducers, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())}>
+  <Provider store={createStoreWithMiddleware(reducers, reduxExtension)}>
   <Router/>
 </Provider>, document.querySelector('#app'));
