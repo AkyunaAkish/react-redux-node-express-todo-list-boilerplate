@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const compression = require('compression');
 const cors = require('cors');
 const helpers = require('../helpers');
+const dev = process.env.NODE_ENV === 'development';
 
 const todos = require('./components/todos/todos');
 
@@ -19,14 +20,14 @@ app.use(bodyParser.urlencoded({
     extended: false
 }));
 
-app.use(express.static(helpers.root('dist')));
+app.use(express.static(dev ? helpers.root('client') : helpers.root('dist')));
 app.use(cookieParser());
 
 app.use('/api/todos', todos);
 
 app.all('*', (req, res, next) => {
     res.sendFile('index.html', {
-        root: helpers.root('dist')
+        root: dev ? helpers.root('client') : helpers.root('dist')
     });
 });
 

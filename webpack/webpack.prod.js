@@ -7,6 +7,7 @@ const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const HtmlPluginRemove = require('html-webpack-plugin-remove');
 
 module.exports = webpackMerge(commonConfig, {
     output: {
@@ -40,6 +41,7 @@ module.exports = webpackMerge(commonConfig, {
                 removeTagWhitespace: true
             }
         }),
+        new HtmlPluginRemove(/<script.*?src="\/bundle.js".*?<\/script>/),
         new ExtractTextPlugin('[name].[chunkhash].css'),
         new OptimizeCssAssetsPlugin({
             cssProcessorOptions: {

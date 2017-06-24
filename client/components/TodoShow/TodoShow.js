@@ -10,16 +10,23 @@ class TodoShow extends PureComponent {
     }
 
     componentDidMount() {
-        this
-            .props
-            .fetchTodo(this.props.match.params.id, (res) => {
-                if (!_.size(res.data)) {
-                    this
-                        .props
-                        .history
-                        .push('/');
-                }
-            });
+        if (Number(this.props.match.params.id)) {
+            this
+                .props
+                .fetchTodo(this.props.match.params.id, (res) => {
+                    if (!_.size(res.data)) {
+                        this
+                            .props
+                            .history
+                            .push('/');
+                    }
+                });
+        } else {
+            this
+                .props
+                .history
+                .push('/');
+        }
     }
 
     renderField(field) {

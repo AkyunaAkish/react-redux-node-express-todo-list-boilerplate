@@ -11,19 +11,21 @@ module.exports = webpackMerge(commonConfig, {
         path: helpers.root('dist'),
         filename: 'bundle.js'
     },
-    rules: [{
-        test: /\.s?css/,
-        use: [{
-                loader: 'style-loader'
-            },
-            {
-                loader: 'css-loader'
-            },
-            {
-                loader: 'sass-loader'
-            }
-        ]
-    }],
+    module: {
+        rules: [{
+            test: /\.s?css/,
+            use: [{
+                    loader: 'style-loader'
+                },
+                {
+                    loader: 'css-loader'
+                },
+                {
+                    loader: 'sass-loader'
+                }
+            ]
+        }],
+    },
     plugins: [
         new WebpackNotifierPlugin({
             alwaysNotify: true
@@ -34,7 +36,7 @@ module.exports = webpackMerge(commonConfig, {
     ],
     devServer: {
         historyApiFallback: true,
-        contentBase: './dist',
+        contentBase: './client',
         proxy: {
             '*': {
                 target: 'http://localhost:3000',
