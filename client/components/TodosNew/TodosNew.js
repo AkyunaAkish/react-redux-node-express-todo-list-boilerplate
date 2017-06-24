@@ -36,7 +36,7 @@ class TodosNew extends PureComponent {
         const {handleSubmit} = this.props;
 
         return (
-            <div style={{padding: 10}}>
+            <div className='todos-new'>
                 <h3>New Todo</h3>
                 <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
                     <Field name='content' label='Todo Content' component={this.renderField}/>

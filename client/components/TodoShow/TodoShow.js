@@ -88,9 +88,7 @@ class TodoShow extends PureComponent {
         }
 
         return (
-            <div style={{
-                padding: 10
-            }}>
+            <div className='todo-show'>
                 <div className='text-right'>
                     <Link to='/' className='btn btn-primary'>
                         Back To Todos

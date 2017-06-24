@@ -32,9 +32,7 @@ class Todos extends PureComponent {
     render() {
         if (!this.props.todos || !_.size(this.props.todos)) {
             return (
-                <div style={{
-                    padding: 10
-                }}>
+                <div className='todos'>
                     <div className='text-right'>
                         <Link to='/todos/new' className='btn btn-primary'>
                             Create Todo
@@ -48,7 +46,7 @@ class Todos extends PureComponent {
         }
 
         return (
-            <div style={{padding: 10}}>
+            <div className='todos'>
                 <div className='text-right'>
                     <Link to='/todos/new' className='btn btn-primary'>
                         Create Todo

@@ -1,1 +1,8 @@
 @import '../../sass/variables';
+
+// keep component level styles nested in 
+// the component's parent element class
+// for name spacing/avoiding style conflicts
+.todo-show {
+    padding: 10px;
+}
