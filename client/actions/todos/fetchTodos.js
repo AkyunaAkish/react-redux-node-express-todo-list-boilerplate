@@ -1,3 +1,5 @@
+import p from 'es6-promise';
+p.polyfill();
 import axios from 'axios';
 import {FETCH_TODOS} from '../types';
 
