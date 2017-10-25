@@ -1,28 +1,32 @@
+require('dotenv').config();
+
 const webpack = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const helpers = require('../helpers');
-const dev = process.env.NODE_ENV === 'development';
 
 module.exports = {
-    entry: [
-        './client/index.js'
-    ],
     module: {
         rules: [{
+                exclude: /(node_modules|bower_components)/,
                 test: /\.jsx?$/,
                 use: [{
                     loader: 'babel-loader'
                 }],
             },
             {
-                test: /\.html$/,
-                use: 'html-loader'
+                test: /\.(woff|woff2|ttf|eot|jpg|jpe?g|png|gif|svg|ico)(\?.*$|$)/,
+                loader: `url-loader`
             },
             {
-                test: /\.(png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico)(\?.*$|$)/,
-                loader: `file-loader?name=assets/[name]${dev ? '' : '.[hash]'}.[ext]`
-            }
-        ]
+                test: /\.s?css/,
+                use: [{
+                        loader: 'style-loader'
+                    },
+                    {
+                        loader: 'css-loader'
+                    },
+                    {
+                        loader: 'sass-loader'
+                    }]
+            }]
     },
     plugins: [
         new webpack.DefinePlugin({
@@ -31,10 +35,23 @@ module.exports = {
         new webpack.ProvidePlugin({
             jQuery: 'jquery',
             $: 'jquery',
-            jquery: 'jquery'
+            jquery: 'jquery',
+            'window.jQuery': 'jquery'
         })
     ],
     resolve: {
         extensions: ['.js', '.json']
+    },
+    node: {
+        fs: 'empty',
+        tls: 'empty',
+        net: 'empty',
+        console: false,
+        global: true,
+        process: true,
+        Buffer: true,
+        __filename: 'mock',
+        __dirname: 'mock',
+        setImmediate: true
     }
 };

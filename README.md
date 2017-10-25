@@ -126,3 +126,17 @@ $ npm run server
 localhost:8080
 ```
 
+#### Building dist folder for production
+
+* Set your .env file's NODE_ENV variable equal to production
+
+```
+NODE_ENV=production
+```
+
+* Run the build script
+
+```
+$ npm run build
+```
+

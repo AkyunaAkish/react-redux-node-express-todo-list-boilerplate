@@ -1,8 +1,17 @@
-import React, {PureComponent} from 'react';
-import {connect} from 'react-redux';
-import {Link} from 'react-router-dom';
-import {Field, reduxForm} from 'redux-form';
-import {fetchTodo, editTodo, deleteTodo} from '../../actions';
+import React, { PureComponent } from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { Field, reduxForm } from 'redux-form';
+import { fetchTodo, editTodo, deleteTodo } from '../../actions';
+
+import Paper from 'material-ui/Paper';
+import DeleteIcon from 'material-ui/svg-icons/content/delete-sweep';
+import ExitIcon from 'material-ui/svg-icons/action/exit-to-app';
+import SaveIcon from 'material-ui/svg-icons/content/save';
+import RaisedButton from 'material-ui/RaisedButton';
+import TextField from 'material-ui/TextField';
+
+import _ from 'lodash';
 
 class TodoShow extends PureComponent {
     constructor(props) {
@@ -11,73 +20,70 @@ class TodoShow extends PureComponent {
 
     componentDidMount() {
         if (Number(this.props.match.params.id)) {
-            this
-                .props
-                .fetchTodo(this.props.match.params.id, (res) => {
+            this.props.fetchTodo(this.props.match.params.id, (res) => {
                     if (!_.size(res.data)) {
-                        this
-                            .props
-                            .history
-                            .push('/');
+                        this.props.history.push('/');
                     }
-                });
+            });
         } else {
-            this
-                .props
-                .history
-                .push('/');
+            this.props.history.push('/');
         }
     }
 
     renderField(field) {
-        const {
-            meta: {
-                touched,
-                error
+        const { meta: { touched, error } } = field;
+        
+        const fieldStyle = {
+            errorStyle: {
+                color: 'rgb(217, 83, 79)',
+            },
+            underlineStyle: {
+                borderColor: 'rgb(119, 136, 153)',
+            },
+            floatingLabelStyle: {
+                color: 'rgb(119, 136, 153)',
+            },
+            floatingLabelFocusStyle: {
+                color: 'rgb(119, 136, 153)',
             }
-        } = field;
-
-        const className = `form-group ${touched && error
-            ? 'has-error'
-            : ''}`;
+        };
 
         return (
-            <div className={className}>
-                <label>{field.label}</label>
-                <input type='text' className='form-control' {...field.input}/>
-                <div>
-                    {touched
-                        ? <p className='text-danger'>{error}</p>
-                        : ''}
-                </div>
+            <div style={{ paddingLeft: 12 }}>
+                <TextField style={{ width: '100%' }}
+                           hintText={ field.label }
+                           floatingLabelText={ field.label }
+                           underlineStyle={fieldStyle.underlineStyle}
+                           errorText={ touched ? error : null }
+                           errorStyle={ fieldStyle.errorStyle }
+                           { ...field.input } />
             </div>
         );
     }
 
     deleteTodo() {
-        this
-            .props
-            .deleteTodo(this.props.match.params.id, () => {
-                this
-                    .props
-                    .history
-                    .push('/');
-            });
+        this.props.deleteTodo(this.props.match.params.id, () => {
+                this.props.history.push('/');
+        });
     }
 
     onSubmit(values) {
-        this
-            .props
-            .editTodo(this.props.match.params.id, values, () => {
-                this
-                    .props
-                    .history
-                    .push('/');
-            });
+        this.props.editTodo(this.props.match.params.id, values, () => {
+                this.props.history.push('/');
+        });
     }
 
     render() {
-        const {todo, handleSubmit} = this.props;
+        const { todo, handleSubmit } = this.props;
+        
+        const paperStyle = {
+            height: '70%',
+            width: '98%',
+            padding: 20,
+            maxHeight: '80vh',
+            margin: 20,
+            display: 'inline-block',
+        };
 
         if (!todo) {
             return (
@@ -88,37 +94,39 @@ class TodoShow extends PureComponent {
         }
 
         return (
-            <div className='todo-show'>
-                <div className='text-right'>
-                    <Link to='/' className='btn btn-primary'>
-                        Back To Todos
-                    </Link>
-                    <button
-                        className='btn btn-danger pull-left'
-                        onClick={this
-                        .deleteTodo
-                        .bind(this)}>
-                        Delete Todo
-                    </button>
-                </div>
-
-                <div className='container text-center'>
-                    <h2>Content:</h2>
-                    <h4>{this.props.todo.content}</h4>
-                </div>
-
+            <div className='todo-show-container'>
                 <div className='container'>
-                    <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
-                        <Field name='content' label='Edit Todo Content' component={this.renderField}/>
-                        <button type='submit' className='btn btn-primary'>
-                            Save Changes
-                        </button>
-                    </form>
+                    <Paper style={ paperStyle } zDepth={ 5 }>
+                        <Link to='/'>
+                            <RaisedButton icon={ <ExitIcon /> }
+                                          label='Back'
+                                          backgroundColor='rgb(50, 122, 183)'
+                                          labelColor='rgb(255, 255, 255)'
+                                          style={{ margin: 12 }} />
+                        </Link>
+
+                        <RaisedButton onClick={ this.deleteTodo.bind(this) } 
+                                      icon={ <DeleteIcon /> } 
+                                      label='Delete' 
+                                      backgroundColor='rgb(217, 83, 79)' 
+                                      labelColor='rgb(255, 255, 255)' 
+                                      style={{ margin: 12 }} />
+
+                        <form onSubmit={ handleSubmit(this.onSubmit.bind(this)) }>
+                            <Field name='content' label='Edit Todo' component={ this.renderField } />
+                            <RaisedButton icon={ <SaveIcon /> }
+                                          type='submit'
+                                          label='Save'
+                                          backgroundColor='rgb(164, 198, 57)'
+                                          labelColor='rgb(255, 255, 255)'
+                                          style={{ margin: 12 }} />
+                        </form>
+                    </Paper>    
                 </div>
             </div>
         );
     }
-};
+}
 
 function mapStateToProps(state, ownProps) {
     return {
@@ -133,18 +141,16 @@ function validate(values, ownProps) {
     const errors = {};
 
     if (!values.content) {
-        errors.content = 'Please enter content to save changes';
+        errors.content = 'Please enter a todo to save changes';
     }
 
     if (values.content && values.content === ownProps.todo.content) {
-        errors.content = 'Please enter a different value if you wish to make changes';
+        errors.content = 'Please enter a new todo if you wish to make changes';
     }
 
     return errors;
 }
 
-let InitializeFromStateForm = reduxForm({validate, form: 'TodosEditForm', enableReinitialize: true})(TodoShow);
+const InitializeFromStateForm = reduxForm({ validate, form: 'TodosEditForm', enableReinitialize: true })(TodoShow);
 
-InitializeFromStateForm = connect(mapStateToProps, {fetchTodo, editTodo, deleteTodo})(InitializeFromStateForm);
-
-export default InitializeFromStateForm;
+export default connect(mapStateToProps, { fetchTodo, editTodo, deleteTodo })(InitializeFromStateForm);

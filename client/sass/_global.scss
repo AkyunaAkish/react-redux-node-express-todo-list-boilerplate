@@ -1,10 +1,18 @@
 @import './variables';
 
+body {
+    background: $slate_grey;
+}
+
 .margin-left-sm {
     margin-left: 5px;
 }
 
 .margin-center {
     margin: 0 auto;
+}
+
+.inline-block {
+    display: inline-block;
 }
 
